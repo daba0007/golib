@@ -1,4 +1,4 @@
-package set
+package slice
 
 // CompareStringSlice compare two string slice
 func CompareStringSlice(s1 []string, s2 []string) bool {
