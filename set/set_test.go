@@ -1,8 +1,9 @@
 package set
 
 import (
-	"golib/slice"
 	"testing"
+
+	"github.com/data0007/golib/slice"
 )
 
 func TestStringSet(t *testing.T) {
