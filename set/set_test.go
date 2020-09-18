@@ -3,7 +3,7 @@ package set
 import (
 	"testing"
 
-	"github.com/data0007/golib/slice"
+	"github.com/daba0007/golib/slice"
 )
 
 func TestStringSet(t *testing.T) {
