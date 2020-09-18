@@ -25,6 +25,14 @@ const (
 	FATAL
 )
 
+const (
+	colorRed     = uint8(iota + 91)
+	colorGreen   //	绿
+	colorYellow  //	黄
+	colorBlue    // 	蓝
+	colorMagenta //	洋红
+)
+
 type logMsg struct {
 	level     string
 	msg       string
@@ -92,4 +100,45 @@ func getInfo(n int) (string, string, int) {
 	funcName := runtime.FuncForPC(pc).Name()
 	fileName := path.Base(file)
 	return funcName, fileName, line
+}
+
+func getRedPrefix(s string) string {
+	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", colorRed, s)
+}
+
+func red(s string) string {
+	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", colorRed, s)
+}
+
+func green(s string) string {
+	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", colorGreen, s)
+}
+
+func yellow(s string) string {
+	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", colorYellow, s)
+}
+
+func blue(s string) string {
+	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", colorBlue, s)
+}
+
+func magenta(s string) string {
+	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", colorMagenta, s)
+}
+
+func colorMsg(lv logLevel, msg string) string {
+	switch lv {
+	case DEBUG:
+		return msg
+	case INFO:
+		return blue(msg)
+	case WARNING:
+		return yellow(msg)
+	case ERROR:
+		return red(msg)
+	case FATAL:
+		return magenta(msg)
+	default:
+		return msg
+	}
 }
