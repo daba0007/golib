@@ -40,7 +40,7 @@ type Log struct {
 	filePath    string       // 文件路径
 	fileDays    string       // 记录文件日期
 	fileObj     *os.File     // 文件对象
-	maxFileSize int64        // 最大文件大小, 默认1024000
+	maxFileSize int64        // 最大文件大小, 默认256Mb
 	saveDays    int          // 文件保存天数
 	consoleFlag bool         // 是否在命令行打印日志，默认打印
 	textFlag    bool         // 是否记录到文件，默认记录
