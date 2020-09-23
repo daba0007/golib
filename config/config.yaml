@@ -1,0 +1,17 @@
+EsService:
+  - address: 'http://10.10.10.10:9200/'
+    username: admin
+    password: admin
+DBService:
+  username: admin
+  password: admin
+  address: '10.10.10.10:5432'
+  dbname: postgres
+GatewayService:
+  address: '10.10.10.10:8185'
+  count: 3
+RabbiqMQ:
+  address: '10.10.10.10'
+  port: '5672'
+  username: guest
+  password: guest
