@@ -131,7 +131,6 @@ func (hostinfo *HostNetworkInfo) listenARP(ctx context.Context) {
 			if arp.Operation == 2 {
 				mac := net.HardwareAddr(arp.SourceHwAddress)
 				m := manuf.Search(mac.String())
-				fmt.Println(ParseIP(arp.SourceProtAddress).String(), mac, m)
 				hostinfo.pushData(ParseIP(arp.SourceProtAddress).String(), mac, "", m)
 				if strings.Contains(m, "Apple") {
 					go hostinfo.sendMdns(ParseIP(arp.SourceProtAddress), mac)
