@@ -96,7 +96,7 @@ func (hostinfo *HostNetworkInfo) ScanSubnet(ctx context.Context) error {
 				hostinfo.t.Stop()
 			case END:
 				// 接收到新数据，重置2秒的计数器
-				hostinfo.t = time.NewTicker(2 * time.Second)
+				hostinfo.t = time.NewTicker(hostinfo.duration)
 			}
 		}
 	}
