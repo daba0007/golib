@@ -18,7 +18,7 @@ func sendArpPackage(ip IP, hostinfo *HostNetworkInfo) error {
 		return fmt.Errorf("ip 解析出问题")
 	}
 	// 以太网首部
-	// EthernetType 0x0806  ARP 发送ARP协议包，目标MAC地址未知 FF-FF-FF-FF-FF-FF
+	// EthernetType 0x0806  ARP 发送ARP协议包，目标MAC地址未知 FF-FF-FF
 	ether := &layers.Ethernet{
 		SrcMAC:       hostinfo.localHaddr,
 		DstMAC:       net.HardwareAddr{0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
