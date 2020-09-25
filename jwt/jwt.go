@@ -6,27 +6,22 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/valyala/fasthttp"
 )
 
 // GetKeycloakPublicKey 获取keycloak公钥
 func GetKeycloakPublicKey(addr string) (string, error) {
-	request, _ := http.NewRequest("GET", addr, nil)
-	client := http.Client{}
-	resp, err := client.Do(request)
+	status, resp, err := fasthttp.Get(nil, addr)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("请求失败:%#v", err.Error())
 	}
-	defer resp.Body.Close()
-	respBytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "", err
+	if status != fasthttp.StatusOK {
+		return "", fmt.Errorf("请求没有成功:%#v", status)
 	}
 	respdata := make(map[string]interface{})
-	if err := json.Unmarshal(respBytes, &respdata); err != nil {
+	if err := json.Unmarshal(resp, &respdata); err != nil {
 		return "", err
 	}
 	return respdata["public_key"].(string), nil
