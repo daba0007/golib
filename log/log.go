@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+var logger *Log = NewLog("info", "./log.log")
+
 // NewLog init new console log
 func NewLog(l string, filePath string) *Log {
 	var (
@@ -17,7 +19,7 @@ func NewLog(l string, filePath string) *Log {
 	if level, err = parseLogLevel(l); err != nil {
 		panic(err)
 	}
-	f1 := &Log{
+	logger := &Log{
 		level:       level,
 		filePath:    filePath,
 		maxFileSize: int64(1024 * 1024 * 256),
@@ -27,10 +29,10 @@ func NewLog(l string, filePath string) *Log {
 		logNum:      1,
 		logChan:     make(chan *logMsg, 50000),
 	}
-	if err = f1.initFile(filePath); err != nil {
+	if err = logger.initFile(filePath); err != nil {
 		panic(err)
 	}
-	return f1
+	return logger
 }
 
 // SetSaveDays 设置日志文件数
@@ -207,51 +209,51 @@ func (l *Log) delete() {
 }
 
 // Debug Debug level
-func (l *Log) Debug(str string, msg ...interface{}) {
-	if l.consoleFlag {
-		l.console(DEBUG, str, msg...)
+func Debug(str string, msg ...interface{}) {
+	if logger.consoleFlag {
+		logger.console(DEBUG, str, msg...)
 	}
-	if l.textFlag {
-		l.text(DEBUG, str, msg...)
+	if logger.textFlag {
+		logger.text(DEBUG, str, msg...)
 	}
 }
 
 // Info Info level
-func (l *Log) Info(str string, msg ...interface{}) {
-	if l.consoleFlag {
-		l.console(INFO, str, msg...)
+func Info(str string, msg ...interface{}) {
+	if logger.consoleFlag {
+		logger.console(INFO, str, msg...)
 	}
-	if l.textFlag {
-		l.text(INFO, str, msg...)
+	if logger.textFlag {
+		logger.text(INFO, str, msg...)
 	}
 }
 
 // Warning Warning level
-func (l *Log) Warning(str string, msg ...interface{}) {
-	if l.consoleFlag {
-		l.console(WARNING, str, msg...)
+func Warning(str string, msg ...interface{}) {
+	if logger.consoleFlag {
+		logger.console(WARNING, str, msg...)
 	}
-	if l.textFlag {
-		l.text(WARNING, str, msg...)
+	if logger.textFlag {
+		logger.text(WARNING, str, msg...)
 	}
 }
 
 // Error Error level
-func (l *Log) Error(str string, msg ...interface{}) {
-	if l.consoleFlag {
-		l.console(ERROR, str, msg...)
+func Error(str string, msg ...interface{}) {
+	if logger.consoleFlag {
+		logger.console(ERROR, str, msg...)
 	}
-	if l.textFlag {
-		l.text(ERROR, str, msg...)
+	if logger.textFlag {
+		logger.text(ERROR, str, msg...)
 	}
 }
 
 // Fatal Fatal level
-func (l *Log) Fatal(str string, msg ...interface{}) {
-	if l.consoleFlag {
-		l.console(FATAL, str, msg...)
+func Fatal(str string, msg ...interface{}) {
+	if logger.consoleFlag {
+		logger.console(FATAL, str, msg...)
 	}
-	if l.textFlag {
-		l.text(FATAL, str, msg...)
+	if logger.textFlag {
+		logger.text(FATAL, str, msg...)
 	}
 }
