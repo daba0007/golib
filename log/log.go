@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var logger *Log = NewLog("info", "")
+var logger *Log
 
 // NewLog init new console log
 func NewLog(l string, filePath string) *Log {
@@ -28,10 +28,6 @@ func NewLog(l string, filePath string) *Log {
 		textFlag:    true,
 		logNum:      1,
 		logChan:     make(chan *logMsg, 50000),
-	}
-	if filePath == "" {
-		logger.textFlag = false
-		return logger
 	}
 	if err = logger.initFile(filePath); err != nil {
 		panic(err)
