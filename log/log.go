@@ -10,6 +10,10 @@ import (
 
 var logger *Log
 
+func init() {
+	NewLog("info", "")
+}
+
 // NewLog init new console log
 func NewLog(l string, filePath string) *Log {
 	var (
@@ -19,7 +23,7 @@ func NewLog(l string, filePath string) *Log {
 	if level, err = parseLogLevel(l); err != nil {
 		panic(err)
 	}
-	logger := &Log{
+	logger = &Log{
 		level:       level,
 		filePath:    filePath,
 		maxFileSize: int64(1024 * 1024 * 256),
@@ -28,6 +32,10 @@ func NewLog(l string, filePath string) *Log {
 		textFlag:    true,
 		logNum:      1,
 		logChan:     make(chan *logMsg, 50000),
+	}
+	if filePath == "" {
+		logger.textFlag = false
+		return logger
 	}
 	if err = logger.initFile(filePath); err != nil {
 		panic(err)
