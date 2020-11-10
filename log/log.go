@@ -98,7 +98,7 @@ func (l *Log) console(lv logLevel, str string, msg ...interface{}) {
 		if err != nil {
 			fmt.Printf("unparse LogLevel failed\n")
 		}
-		fmt.Printf("[%s] [%s] [%s:%s:%d] %s\n", now.Format("2006/01/02 15:04:05"), colorMsg(lv, level), funcName, fileName, lineNo, colorMsg(lv, fmt.Sprintf(str, msg...)))
+		fmt.Printf("[%s] [%s] [%s:%s:%d] %v\n", now.Format("2006/01/02 15:04:05"), colorMsg(lv, level), funcName, fileName, lineNo, colorMsg(lv, fmt.Sprintf(str, msg...)))
 	}
 }
 
@@ -133,7 +133,7 @@ func (l *Log) writeLogBackground() {
 	for {
 		select {
 		case logTmp := <-l.logChan:
-			fmt.Fprintf(l.fileObj, "[%s] [%v] [%s:%s:%d] %s\n", logTmp.timestamp, logTmp.level, logTmp.funcName, logTmp.fileName, logTmp.lineNo, logTmp.msg)
+			fmt.Fprintf(l.fileObj, "[%s] [%v] [%s:%s:%d] %v\n", logTmp.timestamp, logTmp.level, logTmp.funcName, logTmp.fileName, logTmp.lineNo, logTmp.msg)
 		default:
 			// 取不到日志，休息500ms
 			time.Sleep(time.Millisecond * 500)
