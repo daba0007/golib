@@ -217,51 +217,75 @@ func (l *Log) delete() {
 }
 
 // Debug Debug level
-func Debug(str string, msg ...interface{}) {
+func Debug(str interface{}, msg ...interface{}) {
 	if logger.consoleFlag {
-		logger.console(DEBUG, str, msg...)
+		logger.console(DEBUG, formatLog(str, msg...))
 	}
 	if logger.textFlag {
-		logger.text(DEBUG, str, msg...)
+		logger.text(DEBUG, formatLog(str, msg...))
 	}
 }
 
 // Info Info level
-func Info(str string, msg ...interface{}) {
+func Info(str interface{}, msg ...interface{}) {
 	if logger.consoleFlag {
-		logger.console(INFO, str, msg...)
+		logger.console(INFO, formatLog(str, msg...))
 	}
 	if logger.textFlag {
-		logger.text(INFO, str, msg...)
+		logger.text(INFO, formatLog(str, msg...))
 	}
 }
 
 // Warning Warning level
-func Warning(str string, msg ...interface{}) {
+func Warning(str interface{}, msg ...interface{}) {
 	if logger.consoleFlag {
-		logger.console(WARNING, str, msg...)
+		logger.console(WARNING, formatLog(str, msg...))
 	}
 	if logger.textFlag {
-		logger.text(WARNING, str, msg...)
+		logger.text(WARNING, formatLog(str, msg...))
 	}
 }
 
 // Error Error level
-func Error(str string, msg ...interface{}) {
+func Error(str interface{}, msg ...interface{}) {
 	if logger.consoleFlag {
-		logger.console(ERROR, str, msg...)
+		logger.console(ERROR, formatLog(str, msg...))
 	}
 	if logger.textFlag {
-		logger.text(ERROR, str, msg...)
+		logger.text(ERROR, formatLog(str, msg...))
 	}
 }
 
 // Fatal Fatal level
-func Fatal(str string, msg ...interface{}) {
+func Fatal(str interface{}, msg ...interface{}) {
 	if logger.consoleFlag {
-		logger.console(FATAL, str, msg...)
+		logger.console(FATAL, formatLog(str, msg...))
 	}
 	if logger.textFlag {
-		logger.text(FATAL, str, msg...)
+		logger.text(FATAL, formatLog(str, msg...))
 	}
+}
+
+func formatLog(f interface{}, v ...interface{}) string {
+	var msg string
+	switch f.(type) {
+	case string:
+		msg = f.(string)
+		if len(v) == 0 {
+			return msg
+		}
+		if strings.Contains(msg, "%") && !strings.Contains(msg, "%%") {
+			//format string
+		} else {
+			//do not contain format char
+			msg += strings.Repeat(" %v", len(v))
+		}
+	default:
+		msg = fmt.Sprint(f)
+		if len(v) == 0 {
+			return msg
+		}
+		msg += strings.Repeat(" %v", len(v))
+	}
+	return fmt.Sprintf(msg, v...)
 }
