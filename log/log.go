@@ -133,7 +133,7 @@ func (l *Log) writeLogBackground() {
 	for {
 		select {
 		case logTmp := <-l.logChan:
-			fmt.Fprintf(l.fileObj, "[%s] [%v] [%s:%s:%d] %v\n", logTmp.timestamp, logTmp.level, logTmp.funcName, logTmp.fileName, logTmp.lineNo, logTmp.msg)
+			fmt.Fprintf(l.fileObj, "%s|%v|%s:%s:%d|%v\n", logTmp.timestamp, logTmp.level, logTmp.funcName, logTmp.fileName, logTmp.lineNo, logTmp.msg)
 		default:
 			// 取不到日志，休息500ms
 			time.Sleep(time.Millisecond * 500)
@@ -155,7 +155,7 @@ func (l *Log) text(lv logLevel, str string, msg ...interface{}) {
 			msg:       fmt.Sprintf(str, msg...),
 			funcName:  funcName,
 			fileName:  fileName,
-			timestamp: now.Format("2006/01/02 15:04:05"),
+			timestamp: now.Format("2006-01-02 15:04:05"),
 			lineNo:    lineNo,
 		}
 		select {
