@@ -98,7 +98,7 @@ func (l *Log) console(lv logLevel, str string, msg ...interface{}) {
 		if err != nil {
 			fmt.Printf("unparse LogLevel failed\n")
 		}
-		fmt.Printf("[%s] [%s] [%s:%s:%d] %v\n", now.Format("2006/01/02 15:04:05"), colorMsg(lv, level), funcName, fileName, lineNo, colorMsg(lv, fmt.Sprintf(str, msg...)))
+		fmt.Printf("[%s] [%s] [%s:%s:%d] %v\n", now.Format("2006/01/02 15:04:05"), colorMsg(lv, level), funcName, fileName, lineNo, colorMsg(lv, formatLog(str, msg...)))
 	}
 }
 
@@ -152,7 +152,7 @@ func (l *Log) text(lv logLevel, str string, msg ...interface{}) {
 		// 先把日志发送到通道中
 		logTmp := &logMsg{
 			level:     level,
-			msg:       fmt.Sprintf(str, msg...),
+			msg:       formatLog(str, msg...),
 			funcName:  funcName,
 			fileName:  fileName,
 			timestamp: now.Format("2006-01-02 15:04:05"),
